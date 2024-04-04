@@ -1,4 +1,4 @@
-from api.models import User, Profile
+from api.models import User, Profile , Barbershop,StyleOfCut,Appointment
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
@@ -20,13 +20,14 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         profile = user.profile
         token['full_name'] = profile.full_name
         token['username'] = user.username
+        token['id'] = user.id
         token['email'] = user.email
         token['bio'] = profile.bio
         token['image'] = str(profile.image)
         token['verified'] = profile.verified
-        token['role'] = user.role  # Add 'role' to token payload
-        token['address'] = user.address  # Add 'address' to token payload
-        token['phone'] = user.phone  # Add 'phone' to token payload
+        token['role'] = user.role
+        token['address'] = user.address 
+        token['phone'] = user.phone 
         return token
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -57,3 +58,22 @@ class RegisterSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
+
+
+# BarberShop
+class BarbershopSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Barbershop
+        fields = ['id', 'user_id', 'name', 'address'] 
+
+class StyleOfCutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StyleOfCut
+        fields = ['id', 'barbershop', 'name', 'price']
+
+class AppointmentSerializer(serializers.ModelSerializer):
+    style_of_cut = StyleOfCutSerializer()  # Serializer for nested style_of_cut field
+
+    class Meta:
+        model = Appointment
+        fields = ['id', 'barbershop', 'barber', 'customer', 'style_of_cut', 'date_time']

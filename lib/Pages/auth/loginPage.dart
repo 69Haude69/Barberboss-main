@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:salonbuddy/Pages/Barber/bhomepage.dart';
 import 'package:salonbuddy/Pages/Customer/chomepage.dart';
 import 'package:salonbuddy/Pages/admin/ahomepage.dart';
-import 'package:salonbuddy/Pages/auth/Homepage.dart';
 import 'package:salonbuddy/Pages/auth/forget_Password.dart';
 import 'package:salonbuddy/Pages/auth/register.dart';
 
